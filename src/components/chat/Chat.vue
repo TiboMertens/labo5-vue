@@ -2,24 +2,21 @@
 import { ref, reactive, onMounted } from 'vue';
 
 let message = ref("JUUUUUWWW");
+
 let messages = reactive({
   data: [],
 });
 
-// fetch messages from this api url: https://lab5-p379.onrender.com/api/v1/messages/
-fetch("https://lab5-p379.onrender.com/api/v1/messages/")
-  .then((res) => res.json())
-  .then((data) => {
-    data.reverse();
-
-    // Use slice to get the first 10 messages
-    let first10Messages = data.slice(0, 10);
-
-    // Use map to extract the "text" property from each object
-    messages.data = first10Messages.map((message) => message.text);
-
-    console.log(messages); // This will log the correct data
-  });
+onMounted(async () => {
+  try {
+    const response = await fetch("https://lab5-p379.onrender.com/api/v1/messages/");
+    const data = await response.json();
+    messages.data = data.slice(-10);
+    console.log(messages.data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+});
 
 const sendMessage = () => {
   messages.data.unshift(message.value);
@@ -30,7 +27,9 @@ const sendMessage = () => {
 <template>
   <div>
     <ul>
-      <li v-for="m in messages.data">{{ m }}</li>
+      <li v-for="m in messages.data">
+        <strong>{{ m.user }}:</strong> {{ m.text }}
+      </li>
     </ul>
   </div>
   <div>
