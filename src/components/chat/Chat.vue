@@ -1,12 +1,28 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
-let message = ref("JUUUUUWWW"); //voor int, string, boolean
+
+let message = ref("JUUUUUWWW");
 let messages = reactive({
-  data: ["heel", "even", "testen"]
-}); //voor objecten en arrays
+  data: [],
+});
+
+// fetch messages from this api url: https://lab5-p379.onrender.com/api/v1/messages/
+fetch("https://lab5-p379.onrender.com/api/v1/messages/")
+  .then((res) => res.json())
+  .then((data) => {
+    data.reverse();
+
+    // Use slice to get the first 10 messages
+    let first10Messages = data.slice(0, 10);
+
+    // Use map to extract the "text" property from each object
+    messages.data = first10Messages.map((message) => message.text);
+
+    console.log(messages); // This will log the correct data
+  });
 
 const sendMessage = () => {
-  messages.data.push(message.value);
+  messages.data.unshift(message.value);
   message.value = "";
 };
 </script>
