@@ -13,7 +13,6 @@ onMounted(async () => {
     const data = await response.json();
     data.reverse();
     messages.data = data.slice(0, 10);
-    console.log(messages.data);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -21,21 +20,17 @@ onMounted(async () => {
 
 const sendMessage = async () => {
   try {
+    const newMessage = { user: "Tibo", text: message.value }
+
     const response = await fetch("https://lab5-p379.onrender.com/api/v1/messages/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        user: "Tibo",
-        text: message.value,
-      }),
+      body: JSON.stringify(newMessage),
     });
 
-    const data = await response.json();
-    console.log(data);
-
-    messages.data.unshift(data);
+    messages.data.unshift(newMessage);
     message.value = "";
   } catch (error) {
     console.error("Error sending message:", error);
