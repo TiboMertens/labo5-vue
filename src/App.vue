@@ -1,7 +1,8 @@
 <script setup>
-import Chat from './components/chat/chat.vue';
-import VideoDetails from './components/video/VideoDetails.vue';
-import VideoPlayer from './components/video/videoPlayer.vue';
+//import chat component
+import Chat from "./components/chat/Chat.vue";
+import VideoPlayer from "./components/video/VideoPlayer.vue";
+import VideoDetails from "./components/video/VideoDetails.vue";
 
 import { ref } from 'vue';
 
